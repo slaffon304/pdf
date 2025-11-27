@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         if (isHuman) {
           const message =
             "Hello! 👋\nI'll help you get the file you need.\n\n" +
-            "To get the rules, send the command /rules";
+            "To get the rules, send the command  /rules";
           await bot.sendMessage(chatId, message);
         } else {
           await bot.sendMessage(chatId, "I don't give PDFs to bots. 🤖");
