@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
       // 2️⃣ Команда /rules
       if (text === "/rules" && isHuman) {
-        const pdfUrl = "https://pdf-kappa-five.vercel.app/file.pdf"; // без пробелов и редиректов
+        const pdfUrl = "https://pdf-kappa-five.vercel.app/97_rules.pdf"; // без пробелов и редиректов
         await bot.sendDocument(chatId, pdfUrl, {}, {
           filename: "97_rules.pdf",
           contentType: "application/pdf"
