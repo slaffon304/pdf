@@ -4,22 +4,33 @@ const TOKEN = process.env.BOT_TOKEN;
 const bot = new TelegramBot(TOKEN);
 
 export default async function handler(req, res) {
-  // Telegram шлёт POST-запрос по этому эндпоинту
   if (req.method === "POST") {
     const update = req.body;
 
-    if (update.message && update.message.text === "/start") {
+    if (update.message) {
       const chatId = update.message.chat.id;
-      const fromHuman = !update.message.from.is_bot;
+      const text = update.message.text;
+      const isHuman = !update.message.from.is_bot;
 
-      if (fromHuman) {
-        const pdfUrl = `https://${process.env.VERCEL_URL}/file.pdf`;
+      // 1️⃣  Реагируем на /start
+      if (text === "/start") {
+        if (isHuman) {
+          const message =
+            "Приветствую! 👋\nЯ помогу тебе получить нужный файл.\n\n" +
+            "Чтобы получить правила, отправь команду /rules";
+          await bot.sendMessage(chatId, message);
+        } else {
+          await bot.sendMessage(chatId, "Ботам я PDF не выдаю 🤖");
+        }
+      }
+
+      // 2️⃣ Команда /rules
+      if (text === "/rules" && isHuman) {
+        const pdfUrl = "https://pdf-kappa-five.vercel.app/file.pdf"; // без пробелов и редиректов
         await bot.sendDocument(chatId, pdfUrl, {}, {
-          filename: "document.pdf",
+          filename: "97_rules.pdf",
           contentType: "application/pdf"
         });
-      } else {
-        await bot.sendMessage(chatId, "Ботам PDF не выдаю 🤖");
       }
     }
 
